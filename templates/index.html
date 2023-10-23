@@ -2,6 +2,60 @@
 <html>
 <head>
     <title>Sound Volume Control</title>
+    <style>
+        /* Add this CSS code to style your HTML interface */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+input[type="range"] {
+    width: 80%;
+    height: 20px;
+    margin: 10px;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+audio {
+    width: 80%;
+    margin: 20px;
+}
+
+/* Center elements on the page */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+    </style>
 </head>
 <body>
     <label for="soundRange">Volume:</label>
@@ -10,7 +64,7 @@
     <button id="updateButton">Update Volume</button>
 
     <audio id="song" controls>
-        <source src="static/The_Weeknd_-_Blinding_Lights__Official_Audio_(48k).mp3" type="audio/mpeg">
+        <source src="static\static_The_Weeknd_-_Blinding_Lights__Official_Audio_(48k).mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -19,18 +73,19 @@
         const volumeValue = document.getElementById("volumeValue");
         const updateButton = document.getElementById("updateButton");
         const song = document.getElementById("song");
-
+    
         soundRange.addEventListener("input", function() {
             volumeValue.textContent = soundRange.value;
             song.volume = soundRange.value / 100;
         });
-
+    
         updateButton.addEventListener("click", function() {
             fetch('/update_volume', {
                 method: 'POST',
-                body: new URLSearchParams(new FormData(document.querySelector('form'))
+                body: new URLSearchParams(new FormData(document.querySelector('form')))
             });
         });
     </script>
+    
 </body>
 </html>
