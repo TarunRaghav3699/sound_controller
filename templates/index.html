@@ -1,91 +1,158 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Sound Volume Control</title>
+    <title>Sound Control</title>
     <style>
-        /* Add this CSS code to style your HTML interface */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
 
-label {
-    font-size: 20px;
-    font-weight: bold;
-}
+        label {
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-input[type="range"] {
-    width: 80%;
-    height: 20px;
-    margin: 10px;
-}
+        input[type="range"] {
+            width: 80%;
+            height: 20px;
+            margin: 10px;
+        }
 
-p {
-    font-size: 18px;
-    font-weight: bold;
-}
+        p {
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-}
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-button:hover {
-    background-color: #0056b3;
-}
+        button:hover {
+            background-color: #0056b3;
+        }
 
-audio {
-    width: 80%;
-    margin: 20px;
-}
+        audio {
+            width: 80%;
+            margin: 20px;
+        }
 
-/* Center elements on the page */
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+        img {
+            width: 200px;
+            /* Adjust the width as needed */
+        }
 
+        /* Center elements on the page */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 30cm;
+            width: 10cm;
+            border: black;
+            margin: auto;
+        }
+
+
+        /* Add this CSS to make the range input horizontal */
+        input[type="range"] {
+            width: 100%;
+            /* Set the width to 100% to stretch it horizontally */
+            height: 20px;
+            margin: 10px;
+            transform: rotate(270deg);
+            /* Rotate it 270 degrees to make it horizontal */
+            transform-origin: left center;
+            /* Set the rotation origin to the left (start) */
+        }
+
+        .prev-next{
+            align-items: baseline;
+        }
     </style>
 </head>
-<body>
-    <label for="soundRange">Volume:</label>
-    <input type="range" id="soundRange" name="volume" min="0" max="100" value="{{ volume }}">
-    <p>Current Volume: <span id="volumeValue">{{ volume }}</span></p>
-    <button id="updateButton">Update Volume</button>
 
-    <audio id="song" controls>
-        <source src="static\static_The_Weeknd_-_Blinding_Lights__Official_Audio_(48k).mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+<body>
+    <div class="container">
+        <img src="static\leaf image.jpg" alt="Your Image Alt Text"><br>
+        <div class="prev-next">
+            <button id="previousButton"><</button>
+            <button id="nextButton">></button>
+        </div><br><br>
+        <label for="soundRange">Volume:</label>
+        <input type="range" id="soundRange" name="volume" min="0" max="100" value="{{ volume }}">
+        <p>Current Volume: <span id="volumeValue">{{ volume }}</span></p>
+
+        <button id="updateButton">Update Volume</button>
+
+        <audio id="song" controls loop>
+            <source src="static/static_The_Weeknd_-_Blinding_Lights__Official_Audio_(48k).mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+
+    </div>
 
     <script>
         const soundRange = document.getElementById("soundRange");
         const volumeValue = document.getElementById("volumeValue");
         const updateButton = document.getElementById("updateButton");
         const song = document.getElementById("song");
-    
-        soundRange.addEventListener("input", function() {
+
+        // List of song URLs
+        const songs = [
+            "static/static_The_Weeknd_-_Blinding_Lights__Official_Audio_(48k).mp3",
+            "static/Egzod___Maestro_Chives_-_Royalty__Lyrics__ft._Neoni(48k).mp3",
+            "static/Bharat_ka_baccha_baccha_Jay_Shree_Ram_bolega_madhav_440(48k) (1).mp3"
+        ];
+
+        let currentSongIndex = 0; // Initialize with the first song
+
+        // Function to update the audio source
+        function updateAudioSource() {
+            song.src = songs[currentSongIndex];
+            song.load(); // Load the new source
+            song.play(); // Start playing the new song
+        }
+
+        // Next Song Button
+        document.getElementById("nextButton").addEventListener("click", function () {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            updateAudioSource();
+        });
+
+        // Previous Song Button
+        document.getElementById("previousButton").addEventListener("click", function () {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            updateAudioSource();
+        });
+
+        soundRange.addEventListener("input", function () {
             volumeValue.textContent = soundRange.value;
             song.volume = soundRange.value / 100;
         });
-    
-        updateButton.addEventListener("click", function() {
+
+        updateButton.addEventListener("click", function () {
             fetch('/update_volume', {
                 method: 'POST',
                 body: new URLSearchParams(new FormData(document.querySelector('form')))
             });
         });
+
+        // Initial audio source
+        updateAudioSource();
     </script>
-    
 </body>
+
 </html>
