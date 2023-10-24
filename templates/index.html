@@ -54,24 +54,28 @@
 
         /* Center elements on the page */
         .container {
-            /*display: flex;
+            display: flex;
             flex-direction: column;
-            justify-content: center;*/
+            justify-content: center;
             align-items: center;
             height: 15cm;
-            width: 30cm;
+            width: 10cm;
             border: 1px solid black;
             margin: auto;
-            padding: 2cm;
-            
+            padding: 1cm;
+            background-color: aquamarine;
+
         }
+        .color {
+  background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+}
 
 
         /* Add this CSS to make the range input horizontal */
         input[type="range"] {
             width: 100%;
             /* Set the width to 100% to stretch it horizontally */
-            height: 5cm;
+            height: 1cm;
             margin: 10px;
             transform: rotate(270deg);
             /* Rotate it 270 degrees to make it horizontal */
@@ -79,31 +83,32 @@
             /* Set the rotation origin to the left (start) */
         }
 
-        .prev-next{
+        .prev-next {
             align-items: baseline;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <img src="static\leaf image.jpg" alt="Your Image Alt Text"><br>
-        <div class="prev-next">
-            <button id="previousButton"><</button>
-            <button id="nextButton">></button>
+    <div class="color">
+        <div class="container">
+            <img src="static\leaf image.jpg" alt="Your Image Alt Text"><br>
+            <div class="prev-next">
+                <button id="previousButton"><</button>
+                        <button id="nextButton">></button>
+            </div>
+            <!-- <label for="soundRange">Volume:</label> -->
+            <input type="range" id="soundRange" name="volume" min="0" max="100" value="{{ volume }}">
+            <p>Current Volume: <span id="volumeValue">{{ volume }}</span></p>
+
+            <!-- <button id="updateButton">Update Volume</button> -->
+
+            <audio id="song" controls loop>
+                <source src="static/The_Weeknd_-_Blinding_Lights__Official_Audio_(48k).mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
         </div>
-        <!-- <label for="soundRange">Volume:</label> -->
-        <input type="range" id="soundRange" name="volume" min="0" max="100" value="{{ volume }}">
-        <p>Current Volume: <span id="volumeValue">{{ volume }}</span></p>
-
-        <!-- <button id="updateButton">Update Volume</button> -->
-
-        <audio id="song" controls loop>
-            <source src="static/The_Weeknd_-_Blinding_Lights__Official_Audio_(48k).mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-
-
     </div>
 
     <script>
