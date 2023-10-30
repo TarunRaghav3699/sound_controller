@@ -58,7 +58,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 15cm;
+            height: 45.7vw;
             width: 10cm;
             border: 1px solid black;
             margin: auto;
@@ -86,16 +86,24 @@
         .prev-next {
             align-items: baseline;
         }
+        /*.mySlides {
+            display: none;
+          }*/
     </style>
 </head>
 
 <body>
     <div class="color">
         <div class="container">
-            <img src="static\leaf image.jpg" alt="Your Image Alt Text"><br>
+            <div class="mySlides">
+                <img src="static\leaf image.jpg" alt="Your Image Alt Text"><br>
+            </div>
+            <div class="mySlides">
+                <img src="static/AppBreweryWallpaper 1.jpg" alt="Your Image Alt Text"><br>
+            </div>
             <div class="prev-next">
-                <button id="previousButton"><</button>
-                        <button id="nextButton">></button>
+                <button id="previousButton" onclick="plusSlides(-1)"><</button>
+                        <button id="nextButton" onclick="plusSlides(-1)">></button>
             </div>
             <!-- <label for="soundRange">Volume:</label> -->
             <input type="range" id="soundRange" name="volume" min="0" max="100" value="{{ volume }}">
@@ -156,6 +164,39 @@
                 body: new URLSearchParams(new FormData(document.querySelector('form')))
             });
         });
+
+        // adding new functionality for image
+
+        let slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            //let dots = document.getElementsByClassName("demo");
+            //let captionText = document.getElementById("caption");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";
+            }
+            /*for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active", "");
+            }*/
+            slides[slideIndex-1].style.display = "block";
+            //dots[slideIndex-1].className += " active";
+            //captionText.innerHTML = dots[slideIndex-1].alt;
+          }
 
         // Initial audio source
         updateAudioSource();
